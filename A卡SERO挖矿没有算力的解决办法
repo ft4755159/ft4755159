@@ -1,0 +1,32 @@
+我的显卡是 AMD 6800XT 一直在挖ETH 由于最近以915太坊PoS 所以提前转战小币种
+在进行 SERO 挖矿的时候发现，N卡可以正常运行但 A卡无法使用
+
+环境：
+
+显卡 AMD 6800XT
+操作系统 Windows 10
+挖矿软件 serominer -v0.3.0
+
+报错：
+
+Build: windows/release/msvc
+
+Unrecognized platform Intel(R) OpenCL
+Error: No usable mining devices found
+
+解决办法：
+1.WIN10 转到 C:\Windows\System32\ 并为 OpenCL 2.1、x86_64 搜索文件 amdocl64.dll。
+（WIN10以下还有适用于 OpenCL 2.1、x86 的 amdocl.dll；适用于 OpenCL 1.2、x86 的 amdocl12cl.dll；适用于 OpenCL 1.2、x86_64 的 amdocl12cl64.dll。）
+
+2.查找最近的文件，右键单击，单击“属性”，然后选择并复制文件的位置（即其目录的路径）。
+（我的位于 C:\Windows\System32\DriverStore\FileRepository 的子目录中）
+
+3.打开 regedit，也就是注册表编辑器，（例如通过 Windows 键+r，然后输入 regedit）
+导航到 HKEY_LOCAL_MACHINE\SOFTWARE\Khronos\OpenCL\Vendors
+
+4.创建一个新的 DWORD，名称是步骤 2 中的路径，末尾带有 \amdocl64.dll（或您需要或想要的任何 dll 版本），并将数值数据保存为 0。
+例如，我的密钥名称是 C： \Windows\System32\DriverStore\FileRepository\u0382658.inf_amd64_03ff8c2b52214376\B382613\amdocl64.dll
+ps：每台设备的路径不一样，需要自行查找。
+
+改好直接运行 serominer -v0.3.0 成功出现算力！
+
